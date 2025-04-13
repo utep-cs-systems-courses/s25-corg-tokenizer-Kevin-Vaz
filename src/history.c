@@ -1,5 +1,3 @@
-#include "history.h"
-
 #include <stdio.h>
 
 #include <stdlib.h>
@@ -39,7 +37,6 @@ List* init_history(){
     perror("Memory allocation failed");
 
     exit(1);
-
   }
 
   list->root = NULL;
@@ -58,47 +55,52 @@ List* init_history(){
 
 */
 
-void add_history(List *list, char *str){
+void add_history(List *list, char *str) {
 
-  if(!list || !str) return;
+  if (!list || !str) return;
 
 
 
-  Item *temp = (Itemp*)malloc(sizeof(item));
+  Item *temp = (Item *)malloc(sizeof(Item));
 
-  if(!temp) return;
+  if (!temp) return;
 
 
 
   temp->str = strdup(str);
 
-  temp-->next = NULL;
+  if (!temp->str) {
 
-  temp ->id = 1;
+    free(temp);
+
+    return;
+
+  }
+  temp->next = NULL;
+
+  temp->id = 1;
 
 
 
-  if(list-> root == NULL){
+  if (list->root == NULL) {
 
     list->root = temp;
 
-  }else{
+  } else {
 
     Item *copy_list = list->root;
 
-    while(copy_list-> next != NULL){
+    while (copy_list->next != NULL) {
 
       copy_list = copy_list->next;
 
     }
 
-    temp ->id = copy_list->id+1;
+    temp->id = copy_list->id + 1;
 
     copy_list->next = temp;
 
   }
-
-
 
 }
 
@@ -115,7 +117,6 @@ char *get_history(List *list, int id){
   Item *current = list->root;
 
   while (current != NULL) {
-
     if (current->id == id) {
 
       return current->str;
@@ -168,6 +169,6 @@ void free_history(List *list){
 
   }
 
-  free(list)
-  }
-#endif
+  free(list);
+
+}
